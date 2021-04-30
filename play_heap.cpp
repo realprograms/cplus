@@ -33,10 +33,32 @@
 // 
 
 #include <iostream>
+#include <vector>
 // #define NDEBUG
 #include <assert.h>
 
 using namespace std;
+
+class HeapNode {
+public:
+    long value;          
+    int  qID;
+
+    HeapNode() : value(0), qID(0) {}
+    HeapNode(long v) : value(v), qID(0) {}
+    HeapNode(long v, int qid) : value(v), qID(qid) {}
+    HeapNode(const HeapNode& hn) { value = hn.value; qID = hn.qID; }
+    ~HeapNode() {}
+
+    // HeapNode& operator= (const HeapNode &hn) { value = hn.value; qID = hn.qID; }
+    friend ostream &operator<< (ostream &os, HeapNode const &hn) { return os << hn.value; }
+    friend bool operator== (const HeapNode& h1, const HeapNode& h2)  { return h1.value == h2.value; } 
+    friend bool operator!= (const HeapNode& h1, const HeapNode& h2)  { return h1.value == h2.value; }
+    friend bool operator>  (const HeapNode& h1, const HeapNode& h2)  { return h1.value > h2.value; }
+    friend bool operator<  (const HeapNode& h1, const HeapNode& h2)  { return h1.value < h2.value; }
+    friend bool operator>= (const HeapNode& h1, const HeapNode& h2)  { return h1.value >= h2.value; }
+    friend bool operator<= (const HeapNode& h1, const HeapNode& h2)  { return h1.value <= h2.value; }
+};
 
 /*---------------------------------------------------------------------
  *  k-Ary Heap
@@ -47,9 +69,9 @@ using namespace std;
  *    adjust an array to be a max-heap using recursion,
  *    starting from node i and going downward.
  */
-void adjust_kAry_heap_down(long a[], int sz, int i, int k) 
+void HeapTree::adjust_down(int i) 
 { 
-    if (sz <= 1 || i < 0 || k < 1) {
+    if (size <= 1 || i < 0 || k < 1) {
         return;
     }
 
